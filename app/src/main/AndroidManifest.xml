@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SafeHo">
-        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".LoginActivity2"></activity>
+        <activity android:name=".LoginActivity1" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".EmergencyNumberActivity" />
+        <activity android:name=".DetailActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
