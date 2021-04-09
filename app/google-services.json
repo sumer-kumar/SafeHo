@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "907693147450",
+    "project_id": "safeho-6f010",
+    "storage_bucket": "safeho-6f010.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907693147450:android:919149718c8dc3d8c97c03",
+        "android_client_info": {
+          "package_name": "com.sumer.safeho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907693147450-el4pfopih29v7p4ekm8cch9jp9ka2as2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDw5qfdI-JDvuT_EmolNhvsLUTaR86rag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907693147450-el4pfopih29v7p4ekm8cch9jp9ka2as2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
