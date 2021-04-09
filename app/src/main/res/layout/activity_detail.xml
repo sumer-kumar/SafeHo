@@ -70,7 +70,6 @@
                 android:layout_margin="8dp"
                 android:padding="16dp"
                 android:spinnerMode="dialog"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edAge" />
@@ -83,6 +82,15 @@
                 app:layout_constraintEnd_toEndOf="@+id/ivProfilePic"
                 android:src="@drawable/ic_plus"
                 tools:ignore="ContentDescription" />
+
+            <Button
+                android:id="@+id/btNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/next"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spGender" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

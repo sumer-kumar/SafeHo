@@ -12,4 +12,5 @@
     </string-array>
     <string name="name">Full Name</string>
     <string name="age">Age</string>
+    <string name="next">Next</string>
 </resources>
