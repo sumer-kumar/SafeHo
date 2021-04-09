@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SafeHo</string>
+    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="number_hint">9876543210</string>
+    <string name="verify">Verify</string>
+    <string name="enter_otp">Enter Otp</string>
+    <string name="click_to_upload">Click to upload</string>
+    <string-array name="gender">
+        <item>Female</item>
+        <item>Male</item>
+        <item>Other</item>
+    </string-array>
+    <string name="name">Full Name</string>
+    <string name="age">Age</string>
+</resources>
