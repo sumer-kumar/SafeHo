@@ -6,4 +6,86 @@
     android:layout_height="match_parent"
     tools:context=".DetailActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:padding="40dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
+
+            <ImageView
+                android:id="@+id/ivProfilePic"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_margin="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_user"
+                app:layout_constraintBottom_toTopOf="@+id/edFullname"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <EditText
+                android:id="@+id/edFullname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:ems="10"
+                android:hint="@string/name"
+                android:inputType="textPersonName"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivProfilePic" />
+
+            <EditText
+                android:id="@+id/edAge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:ems="10"
+                android:hint="@string/age"
+                android:inputType="number"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edFullname"
+                android:autofillHints="yes" />
+
+            <Spinner
+                android:id="@+id/spGender"
+                android:layout_width="206dp"
+                android:layout_height="51dp"
+                android:layout_margin="8dp"
+                android:padding="16dp"
+                android:spinnerMode="dialog"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edAge" />
+
+            <ImageView
+                android:id="@+id/ivPlus"
+                android:layout_width="56dp"
+                android:layout_height="54dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivProfilePic"
+                app:layout_constraintEnd_toEndOf="@+id/ivProfilePic"
+                android:src="@drawable/ic_plus"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
