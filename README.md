@@ -1,6 +1,6 @@
 # Introduction
 
-SafeHo is an android application to ensure women safety. It has got several features which are always prior to seek help from in urgent.
+SafeHo is an android application to ensure women safety. It has got several features which are always prior to seek help from in urgent.\
 
 ####First it does the user authentication using mobile number.
 ####Takes some basinc and most important information from the user like photo, name, gender.
