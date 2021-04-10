@@ -9,4 +9,20 @@ SafeHo is an android application to ensure women safety. It has got several feat
 * Those recieving notification from the victim can use on Map button which will direct the location to google maps and can easily reach to that spot.
 * Those recieving notification from the victim can also make a call to the victim with call button to help if possible.
 * If victim finds himslef/herself safer later on then they can press SAFE button which will again notify others about the safe state so that rush is not created.
-# Women Safety app
+# Table of Content
+#Technology Stack
+* Android Studio
+* Firebase
+* Firebase Authentication.
+* Firebase Realtime Database.
+* Cloud Storage or Firebase.
+* Firebase Cloud Messaging.
+* Google Map Services.
+#Contributors
+* [Sumer Kumar](https://github.com/sumer-kumar)
+* [Manish Gautam](https://github.com/manish-mania)
+# Made At
+![Hack36](https://i.ibb.co/3vMYD6M/Made-at-Hack-36.png)
+
+
+
