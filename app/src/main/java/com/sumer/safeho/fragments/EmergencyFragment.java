@@ -1,7 +1,11 @@
 package com.sumer.safeho.fragments;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +40,7 @@ public class EmergencyFragment extends Fragment {
     User user;
     String longitude;
     String latitude;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 //    ArrayList<Notification> notiList=new ArrayList<>();
     public EmergencyFragment() {}
 
@@ -42,7 +50,7 @@ public class EmergencyFragment extends Fragment {
         binding = FragmentEmergencyBinding.inflate(inflater, container, false);
         database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
-
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
         database.getReference(Constant.USER)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber())
                 .addValueEventListener(new ValueEventListener() {
@@ -74,28 +82,47 @@ public class EmergencyFragment extends Fragment {
                         binding.btAlert.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                        //get the location here
+                                        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                                            @Override
+                                            public void onSuccess(Location location) {
+                                                if (location != null) {
+                                                     latitude =""+location.getLatitude();
+                                                     longitude = ""+location.getLongitude();
+                                                     noti.setLongitude(longitude);
+                                                     noti.setLatitude(latitude);
+                                                     //yahan
+                                                    database.getReference().child(Constant.EMERGENCY_PHONE_LIST)
+                                                            .child(mAuth.getCurrentUser().getPhoneNumber())
+                                                            .addValueEventListener(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                                    for (DataSnapshot snaps : snapshot.getChildren()) {
+                                                                        String ph = snaps.getValue(String.class);
+                                                                        database.getReference().child(Constant.NOTIFICATION).child(ph).push().setValue(noti);
+                                                                    }
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                                }
+                                                            });
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                                    }
+                                }
+
                                 binding.btSafe.setVisibility(binding.btSafe.VISIBLE);
                                 user.setSafe(false);
                                 boolean t = true;
                                 database.getReference().child(Constant.USER)
                                         .child(mAuth.getCurrentUser().getPhoneNumber()).child("safe").setValue(false);
-
-                                database.getReference().child(Constant.EMERGENCY_PHONE_LIST)
-                                        .child(mAuth.getCurrentUser().getPhoneNumber())
-                                        .addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                                                for (DataSnapshot snaps : snapshot.getChildren()) {
-                                                    String ph = snaps.getValue(String.class);
-                                                    database.getReference().child(Constant.NOTIFICATION).child(ph).push().setValue(noti);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                            }
-                                        });
 
                             }
                         });

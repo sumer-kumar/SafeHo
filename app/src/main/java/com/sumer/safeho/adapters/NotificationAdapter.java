@@ -73,15 +73,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.btOnmaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String lat = "28.5478720";
-                String lng = "77.4884920";
-//                Uri mapUri = Uri.parse("geo:0,0?q="+lat+","+lng+"z");
-//                Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapUri);
-//                mapIntent.setPackage("com.google.android.apps.maps");
-//                context.startActivity(mapIntent);
-                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("http://maps.google.com/maps?daddr="+lat+","+lng));
-                context.startActivity(intent);
+                String lat = noti.getLatitude();
+                String lng = noti.getLongitude();
+                Uri mapUri = Uri.parse("geo:0,0?q="+lat+","+lng+"z");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                context.startActivity(mapIntent);
+//                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+//                        Uri.parse("http://maps.google.com/maps?daddr="+lat+","+lng));
+//                context.startActivity(intent);
             }
         });
     }

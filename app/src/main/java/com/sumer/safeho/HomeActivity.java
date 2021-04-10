@@ -45,9 +45,11 @@ public class HomeActivity extends AppCompatActivity {
                 HomeActivity.this.finish();
                 break;
 
-
             case R.id.menuSettings :
-                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Update your profile", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomeActivity.this,DetailActivity.class);
+                startActivity(intent);
+                HomeActivity.this.finish();
                 break;
         }
 
