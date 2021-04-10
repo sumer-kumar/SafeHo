@@ -11,7 +11,7 @@ public class User {
     private String uid;
     private String phoneNumber;
     private String gender;
-
+    private boolean safe = true;
     public String getGender() {
         return gender;
     }

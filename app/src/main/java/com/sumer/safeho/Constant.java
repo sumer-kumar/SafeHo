@@ -12,5 +12,7 @@ public class Constant {
     public static final String IS_DETAILS_GIVEN="detailsGiven";
     public static final String IS_EMERGENCY_NO_GIVEN="emergencyNoGiven";
     public static final String EMERGENCY_PHONE_LIST = "emergencyPhoneList";
+    public static final String EMERGENCY = "Emergency";
+    public static final String NOTIFICATION = "Notification";
 
 }
