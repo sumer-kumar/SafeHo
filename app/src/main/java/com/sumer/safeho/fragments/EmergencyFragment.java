@@ -20,18 +20,28 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.sumer.safeho.Constant;
-import com.sumer.safeho.R;
 import com.sumer.safeho.databinding.FragmentEmergencyBinding;
 import com.sumer.safeho.modelclasses.Notification;
 import com.sumer.safeho.modelclasses.User;
+import com.sumer.safeho.sendNotificationPack.APIService;
+import com.sumer.safeho.sendNotificationPack.Client;
+import com.sumer.safeho.sendNotificationPack.Data;
+import com.sumer.safeho.sendNotificationPack.MyResponse;
+import com.sumer.safeho.sendNotificationPack.NotificationSender;
+import com.sumer.safeho.sendNotificationPack.Token;
 
-import java.util.ArrayList;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EmergencyFragment extends Fragment {
     private FragmentEmergencyBinding binding;
@@ -40,8 +50,9 @@ public class EmergencyFragment extends Fragment {
     User user;
     String longitude;
     String latitude;
+    private APIService apiService;
     private FusedLocationProviderClient fusedLocationProviderClient;
-//    ArrayList<Notification> notiList=new ArrayList<>();
+
     public EmergencyFragment() {}
 
     @Override
@@ -50,6 +61,7 @@ public class EmergencyFragment extends Fragment {
         binding = FragmentEmergencyBinding.inflate(inflater, container, false);
         database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
         database.getReference(Constant.USER)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber())
@@ -110,6 +122,21 @@ public class EmergencyFragment extends Fragment {
                                                                 public void onCancelled(@NonNull DatabaseError error) {
                                                                 }
                                                             });
+                                                    database.getReference().child(Constant.TOKEN)
+                                                            .child(mAuth.getCurrentUser().getPhoneNumber())
+                                                            .child(Constant.TOKEN)
+                                                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                @Override
+                                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                    String usertoken=snapshot.getValue(String.class);
+                                                                    sendNotifications(usertoken, noti.getName().toString().trim(),"Needs Your Help");
+                                                                }
+
+                                                                @Override
+                                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                                }
+                                                            });
                                                 }
                                             }
                                         });
@@ -165,14 +192,44 @@ public class EmergencyFragment extends Fragment {
         binding.btPolice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String num = "7530885187";
+                String num = "112";
                 Uri number = Uri.parse("tel:"+num);
                 Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
                 startActivity(callIntent);
             }
         });
-
-
+        UpdateToken();
         return binding.getRoot();
     }
+    private void UpdateToken(){
+        FirebaseUser firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+        String refreshToken= FirebaseInstanceId.getInstance().getToken();
+        Token token= new Token(refreshToken);
+        FirebaseDatabase.getInstance().getReference()
+                .child(Constant.TOKEN)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber())
+                .setValue(token);
+
+    }
+
+    public void sendNotifications(String usertoken, String title, String message) {
+        Data data = new Data(title, message);
+        NotificationSender sender = new NotificationSender(data, usertoken);
+        apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().success != 1) {
+                        Toast.makeText(getContext(), "Failed ", Toast.LENGTH_LONG);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Failed Successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+}
+
 }

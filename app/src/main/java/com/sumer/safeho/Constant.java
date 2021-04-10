@@ -14,5 +14,6 @@ public class Constant {
     public static final String EMERGENCY_PHONE_LIST = "emergencyPhoneList";
     public static final String EMERGENCY = "Emergency";
     public static final String NOTIFICATION = "Notification";
+    public static final String TOKEN = "token";
 
 }

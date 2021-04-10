@@ -115,7 +115,6 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
             binding.ivProfilePic.setImageURI(sFile);
 
             final StorageReference reference = storage.getReference().child(Constant.PROFILE_PICTURE).child(mAuth.getCurrentUser().getPhoneNumber());
-
             reference.putFile(sFile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
