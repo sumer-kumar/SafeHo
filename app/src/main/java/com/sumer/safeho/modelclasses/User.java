@@ -16,6 +16,14 @@ public class User {
         return gender;
     }
 
+    public boolean isSafe() {
+        return safe;
+    }
+
+    public void setSafe(boolean safe) {
+        this.safe = safe;
+    }
+
     public void setGender(String gender) {
         this.gender = gender;
     }

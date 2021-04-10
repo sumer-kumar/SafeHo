@@ -118,7 +118,7 @@ public class EmergencyNumberActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(ListElementsArrayList.size()<=2)
                 {
-                    Toast.makeText(EmergencyNumberActivity.this, "Add at least "+(3-ListElementsArrayList.size())+"more contacts", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EmergencyNumberActivity.this, "Add at least "+(3-ListElementsArrayList.size())+" more contacts", Toast.LENGTH_SHORT).show();
 
                 }
                 else

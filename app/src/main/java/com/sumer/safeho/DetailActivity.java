@@ -115,10 +115,19 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
             binding.ivProfilePic.setImageURI(sFile);
 
             final StorageReference reference = storage.getReference().child(Constant.PROFILE_PICTURE).child(mAuth.getCurrentUser().getPhoneNumber());
+
             reference.putFile(sFile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(DetailActivity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                    reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                                database.getReference().child(Constant.USER).child(mAuth.getCurrentUser().getPhoneNumber())
+                                        .child("profilepic").setValue(uri.toString());
+                        }
+                    });
+
                 }
             });
         }
