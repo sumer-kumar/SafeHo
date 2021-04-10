@@ -47,4 +47,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btPolice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Call Police"
+        app:layout_constraintBottom_toTopOf="@+id/btSafe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

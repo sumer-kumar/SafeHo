@@ -59,7 +59,7 @@ public class NotificationFragment extends Fragment {
                         for(DataSnapshot snaps : snapshot.getChildren())
                         {
                             Notification noti = snaps.getValue(Notification.class);
-                            notiList.add(noti);
+                            notiList.add(0,noti);
                         }
                         adapter.notifyDataSetChanged();
 //                        Toast.makeText(getContext(), ""+notiList.size(), Toast.LENGTH_SHORT).show();
