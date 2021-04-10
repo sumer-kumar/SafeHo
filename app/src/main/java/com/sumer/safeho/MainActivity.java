@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                             if(!user.isDetailsGiven())
                             {
                                 //if details are not given
-                                intent = new Intent(getApplicationContext(),DetailActivity.class);
+                                intent = new Intent(MainActivity.this,DetailActivity.class);
                             }
                             else if(!user.isEmergencyNoGiven())
                             {

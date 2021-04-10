@@ -1,5 +1,6 @@
 package com.sumer.safeho;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,11 +14,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.sumer.safeho.databinding.ActivityDetailBinding;
+import com.sumer.safeho.modelclasses.User;
+
+import java.util.HashMap;
 
 public class DetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -25,6 +32,7 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private FirebaseDatabase database;
+    private String gender;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +44,8 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
-
         binding.spGender.setOnItemSelectedListener(this);
-        ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_spinner_item,Constant.GENDER);
+        ArrayAdapter ad = new ArrayAdapter(this, android.R.layout.simple_spinner_item,Constant.GENDER_ARRAY);
         ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spGender.setAdapter(ad);
 
@@ -52,14 +59,34 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
             }
         });
         //when "next" button pressend
-        binding.btNext.setOnClickListener(new View.OnClickListener() {
+        binding.bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = binding.edFullname.getText().toString();
+                String ag = binding.edAge.getText().toString();
                 if(name.trim().equals(""))
                 {
                     Toast.makeText(DetailActivity.this, "Invalid name", Toast.LENGTH_SHORT).show();
                     return ;
+                }
+                else if(!verifyAge(ag.trim()))
+                {
+                    Toast.makeText(DetailActivity.this, "Invalid Age", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    String phoneNumber = mAuth.getCurrentUser().getPhoneNumber();
+                    HashMap map = new HashMap();
+                    map.put(Constant.NAME,name);
+                    map.put(Constant.AGE,Integer.parseInt(ag));
+                    map.put(Constant.GENDER,gender);
+                    map.put(Constant.IS_DETAILS_GIVEN,true);
+
+                    database.getReference().child(Constant.USER).child(phoneNumber).updateChildren(map);
+                    Toast.makeText(DetailActivity.this, "Successfully added "+name, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(),EmergencyNumberActivity.class);
+                    intent.putExtra(Constant.PHONE_NUMBER,phoneNumber);
+                    startActivity(intent);
                 }
 
             }
@@ -100,8 +127,9 @@ public class DetailActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getApplicationContext(), Constant.GENDER[position], Toast.LENGTH_LONG).show();
-    }
+//        Toast.makeText(getApplicationContext(), Constant.GENDER[position], Toast.LENGTH_LONG).show();
+          gender = Constant.GENDER_ARRAY[position];
+ }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {

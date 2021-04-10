@@ -96,10 +96,11 @@ public class LoginActivity2 extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String uid = task.getResult().getUser().getUid();
                             User user = new User(phoneNumber,uid,false,false);
-                            ArrayList<String> f = new ArrayList<>();
-                            user.setEmergencyPhoneList(f);
+//                            ArrayList<String> f = new ArrayList<>();
+//                            user.setEmergencyPhoneList(f);
                             database.getReference().child(Constant.USER).child(phoneNumber).setValue(user);
                             Intent intent = new Intent(getApplicationContext(),DetailActivity.class);
+//                            intent.putExtra(Constant.PHONE_NUMBER,phoneNumber);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
 
