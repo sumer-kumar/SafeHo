@@ -11,7 +11,7 @@ SafeHo is an android application to ensure women safety. It has got several feat
 * Those recieving notification from the victim can also make a call to the victim with call button to help if possible.
 * If victim finds himslef/herself safer later on then they can press SAFE button which will again notify others about the safe state so that rush is not created.
 # Table of Content
-#Technology Stack
+# Technology Stack
 * Android Studio
 * Firebase
 * Firebase Authentication.
