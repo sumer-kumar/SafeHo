@@ -25,6 +25,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class EmergencyFragment extends Fragment {
+    private FusedLocationProviderClient fusedLocationProviderClient;  //by me
+    private Button btn;                                               //by me
+    Double lat,lon;                                                   //by me
+    fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient( this);//by me
     private FragmentEmergencyBinding binding;
     FirebaseDatabase database;
     FirebaseAuth mAuth;
@@ -54,13 +58,37 @@ public class EmergencyFragment extends Fragment {
                             binding.btAlert.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                                                                                                   //by me  from here
+                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        //get the location here
+                        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                if (location != null) {
+                                     lat = location.getLatitude();
+                                     lon = location.getLongitude();
+                                  //  txtv.setText(lat + " , " + lon);
+                                   // Toast.makeText(MainActivity.this, "success", Toast.LENGTH_SHORT);
+                                }
+                            }
+                        });
+                    } else {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    }
+                }
+                                                                                                            //by me to here
                                     binding.btSafe.setVisibility(binding.btSafe.VISIBLE);
                                     user.setSafe(false);
-
+                                    longitude = Double.toString(lon);               //by me
+                                    latitude = Double.toString(lat);                //by me
                                     Notification noti = new Notification();
+                                    noti.setLatitude(latitude);                     //by me
+                                    noti.setLongitude(longitude);                   //by me
                                     noti.setPhoneNumber(user.getPhoneNumber());
                                     noti.setTimeStamp(new Date().getTime());
                                     noti.setSafe(false);
+                                    noti.setLoca
                                     noti.setAge(user.getAge());
                                     noti.setGender(user.getGender());
                                     noti.setName(user.getName());
