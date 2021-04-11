@@ -12,9 +12,12 @@ SafeHo is an android application to ensure women safety. It has got several feat
 * If victim finds himslef/herself safer later on then they can press SAFE button which will again notify others about the safe state so that rush is not created.
 # Table of Content
 PowerPoint Presentation
+
 * [PPT](https://drive.google.com/file/d/1MH1VfEw6ARqHUcMNdgrc1UeeOPcbIXTf/view?usp=sharing)
+
 .APK file of the Application
 * [APK](https://drive.google.com/file/d/17XYj3Yc1WR7Fkxdx_RwjNjfv49hA2x_j/view?usp=sharing)
+
 Demonstration video
 * [Demostration Video](https://drive.google.com/file/d/1mhhzORkgb4s0vGXIQ-tshrIGjBdQRvLS/view?usp=sharing)
 # Technology Stack
