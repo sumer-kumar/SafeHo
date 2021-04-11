@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -47,6 +48,15 @@ public class LoginActivity2 extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
 
         sendVerificationCode(phoneNumber);
+
+        binding.bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String codie = binding.edOtp.getText().toString();
+                VerifyCode(codie);
+            }
+        });
+
     }
     public void sendVerificationCode(String ph)
     {
