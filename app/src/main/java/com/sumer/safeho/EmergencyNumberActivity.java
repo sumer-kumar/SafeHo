@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -55,8 +56,7 @@ public class EmergencyNumberActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         ListElementsArrayList.clear();
-                        for(DataSnapshot snaps : snapshot.getChildren())
-                        {
+                        for (DataSnapshot snaps : snapshot.getChildren()) {
                             String ph = snaps.getValue(String.class);
                             ListElementsArrayList.add(ph);
 
@@ -74,7 +74,7 @@ public class EmergencyNumberActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
         String dialog_title = "Note";
 
-        builder.setMessage("Try to add those contacts which have installed the application or tell them to install the application otherwise they won't able to help ") .setTitle(dialog_title);
+        builder.setMessage("Try to add those contacts which have installed the application or tell them to install the application otherwise they won't able to help ").setTitle(dialog_title);
         //Setting message manually and performing action on button click
         builder.setCancelable(true)
                 .setNeutralButton("Okay", new DialogInterface.OnClickListener() {
@@ -88,10 +88,9 @@ public class EmergencyNumberActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String phone = binding.edNumber.getText().toString();
-                if(User.isValidPhoneNumber(phone.trim()))
-                {
-                    if(!ListElementsArrayList.contains(phone)) {
-                        ListElementsArrayList.add("+91"+phone);
+                if (User.isValidPhoneNumber(phone.trim())) {
+                    if (!ListElementsArrayList.contains(phone)) {
+                        ListElementsArrayList.add("+91" + phone);
                         adapter.notifyDataSetChanged();
 
 
@@ -100,14 +99,10 @@ public class EmergencyNumberActivity extends AppCompatActivity {
                         binding.edNumber.setText("");
                         binding.edNumber.requestFocus();
 
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(EmergencyNumberActivity.this, "Already present", Toast.LENGTH_SHORT).show();
                     }
-                }
-                else
-                {
+                } else {
                     Toast.makeText(EmergencyNumberActivity.this, "Invalid Number", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -116,24 +111,33 @@ public class EmergencyNumberActivity extends AppCompatActivity {
         binding.btDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ListElementsArrayList.size()<=2)
-                {
-                    Toast.makeText(EmergencyNumberActivity.this, "Add at least "+(3-ListElementsArrayList.size())+" more contacts", Toast.LENGTH_SHORT).show();
+                if (ListElementsArrayList.size() <= 2) {
+                    Toast.makeText(EmergencyNumberActivity.this, "Add at least " + (3 - ListElementsArrayList.size()) + " more contacts", Toast.LENGTH_SHORT).show();
 
-                }
-                else
-                {
+                } else {
                     HashMap map = new HashMap();
-                    map.put(Constant.IS_EMERGENCY_NO_GIVEN,true);
+                    map.put(Constant.IS_EMERGENCY_NO_GIVEN, true);
                     database.getReference().child(Constant.USER).child(mAuth.getCurrentUser().getPhoneNumber()).updateChildren(map);
-                    Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                     EmergencyNumberActivity.this.finish();
                 }
             }
         });
 
-        //when done button clicked
 
+        //long click listner
+        binding.lvEmrNumber.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(EmergencyNumberActivity.this, "Deleted "+ListElementsArrayList.get(position), Toast.LENGTH_SHORT).show();
+                ListElementsArrayList.remove(position);
+                adapter.notifyDataSetChanged();
+                database.getReference().child(Constant.EMERGENCY_PHONE_LIST)
+                        .child(mAuth.getCurrentUser().getPhoneNumber()).setValue(ListElementsArrayList);
+                return false;
+            }
+        });
     }
+
 }
